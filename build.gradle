@@ -1,0 +1,19 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+compile group: 'org.openstreetmap.osmosis', name:'osmosis-core', version:'0.44.1'
+}
+
+
+jar {
+    baseName = 'geojson-plugin'
+    version =  '0.1.0'
+}

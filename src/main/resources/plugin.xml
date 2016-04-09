@@ -1,0 +1,20 @@
+<?xml version="1.0" ?><!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0"
+    "http://jpf.sourceforge.net/plugin_1_0.dtd">
+<!-- Here, provides a unique ID and version for your plugin. -->
+<plugin id="geojson" version="1.0">
+    <requires>
+        <import plugin-id="org.openstreetmap.osmosis.core.plugin.Core" reverse-lookup="false" />
+    </requires>
+
+    <runtime>
+        <library id="mycode" path="/" type="code" />
+    </runtime>
+
+    <!-- Describes where the plugin plugs into. -->
+    <extension id="geojson"
+        plugin-id="org.openstreetmap.osmosis.core.plugin.Core" point-id="Task">
+        <parameter id="name" value="geojson" />
+        <!-- Here, give the fully qualified name for your class loader. -->
+        <parameter id="class" value="com.chandan.osmosis.plugin.GeoJsonPluginLoader" />
+    </extension>
+</plugin>
