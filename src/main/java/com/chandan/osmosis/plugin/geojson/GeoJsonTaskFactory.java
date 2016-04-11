@@ -1,4 +1,4 @@
-package com.chandan.osmosis.plugin;
+package com.chandan.osmosis.plugin.geojson;
 
 import org.openstreetmap.osmosis.core.pipeline.common.TaskConfiguration;
 import org.openstreetmap.osmosis.core.pipeline.common.TaskManager;

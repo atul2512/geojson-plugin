@@ -1,4 +1,4 @@
-package com.chandan.osmosis.plugin;
+package com.chandan.osmosis.plugin.geojson;
 
 import java.util.Map;
 
@@ -11,8 +11,12 @@ import org.openstreetmap.osmosis.core.domain.v0_6.Relation;
 import org.openstreetmap.osmosis.core.domain.v0_6.Way;
 import org.openstreetmap.osmosis.core.task.v0_6.Sink;
 
+import com.chandan.osmosis.plugin.geojson.converter.OsmNodeToFeaturePointConverter;
+
 public class GeoJsonSink implements Sink {
 
+	private OsmNodeToFeaturePointConverter nodeToFeaturePointConverter = new OsmNodeToFeaturePointConverter();
+	
 	@Override
 	public void initialize(Map<String, Object> metaData) {
 		System.out.println("GeoJsonPlugin initialised");

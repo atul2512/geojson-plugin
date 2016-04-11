@@ -1,4 +1,4 @@
-package com.chandan.osmosis.plugin;
+package com.chandan.osmosis.plugin.geojson;
 
 import java.util.HashMap;
 import java.util.Map;

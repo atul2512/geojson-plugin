@@ -1,19 +1,36 @@
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'maven'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+configurations {
+    provided
+    compile.extendsFrom provided
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-compile group: 'org.openstreetmap.osmosis', name:'osmosis-core', version:'0.44.1'
+	compile group: 'org.openstreetmap.osmosis', name:'osmosis-core', version:'0.44.1'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version:'2.5.4'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version:'2.5.4'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.5.4'
+	compile group: 'com.sleepycat', name: 'je', version: '4.0.92'
+	provided group: 'org.projectlombok', name: 'lombok', version: '1.16.4'
 }
 
 
 jar {
     baseName = 'geojson-plugin'
     version =  '0.1.0'
+    dependsOn configurations.runtime
+    from {
+        (configurations.runtime - configurations.provided).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    } 
 }

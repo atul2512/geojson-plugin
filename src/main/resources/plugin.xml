@@ -15,6 +15,6 @@
         plugin-id="org.openstreetmap.osmosis.core.plugin.Core" point-id="Task">
         <parameter id="name" value="geojson" />
         <!-- Here, give the fully qualified name for your class loader. -->
-        <parameter id="class" value="com.chandan.osmosis.plugin.GeoJsonPluginLoader" />
+        <parameter id="class" value="com.chandan.osmosis.plugin.geojson.GeoJsonPluginLoader" />
     </extension>
 </plugin>
