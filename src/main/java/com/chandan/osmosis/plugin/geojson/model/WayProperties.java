@@ -9,10 +9,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class WayProperties extends OsmCommonProperties {
+public class WayProperties extends Properties {
 
 	@JsonSerialize
 	private long startNodeId;
 	@JsonSerialize
 	private long endNodeId;
+	@JsonSerialize
+	private String highWay;
 }

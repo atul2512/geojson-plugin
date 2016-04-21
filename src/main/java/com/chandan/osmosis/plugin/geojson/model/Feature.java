@@ -12,7 +12,7 @@ public class Feature<T extends Geometry> extends Geometry {
 	@JsonSerialize
 	private T geometry;
 	@JsonSerialize
-	private OsmCommonProperties properties;
+	private Properties properties;
 	
 	public Feature() {
 		super(GeoJsonModelType.FEATURE);

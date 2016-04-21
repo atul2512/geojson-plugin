@@ -1,6 +1,4 @@
-package com.chandan.osmosis.plugin.geojson.model;
-
-import java.lang.reflect.Type;
+package com.chandan.osmosis.plugin.geojson.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -28,7 +26,8 @@ public class Utils {
         return u;
     }
 
-    public static <T> T jsonDecode(byte[] data) throws Exception {
+    @SuppressWarnings("unchecked")
+	public static <T> T jsonDecode(byte[] data) throws Exception {
     	if (data == null) {
     		return null;
     	}

@@ -9,12 +9,18 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OsmCommonProperties {
+public class Properties {
 	
 	@JsonSerialize
-	private String osmId;
+	private long osmId;
 	@JsonSerialize
 	private String name;
 	@JsonSerialize
+	private Long startOsmNodeId;
+	@JsonSerialize
+	private Long endOsmNodeId;
+	@JsonSerialize
+	private String highWay;
+	@JsonSerialize()
 	private Map<String, String> tags;
 }
