@@ -8,7 +8,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum GeoJsonModelType {
 
-	POINT("Point"),LINESTRING("LineString"),POLYGON("Polygon"),GEOMETRY_COLLECTION("GeometryCollection"), FEATURE("Feature");
+	POINT("Point"),LINESTRING("LineString"),POLYGON("Polygon"),GEOMETRY_COLLECTION("GeometryCollection"), FEATURE("Feature"),
+    MULTI_POLYGON("MultiPolygon");
 	
 	private final String name;
 	

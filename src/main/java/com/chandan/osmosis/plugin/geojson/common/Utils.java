@@ -21,6 +21,7 @@ public class Utils {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T jsonDecode(byte[] data, TypeReference<T> t) throws Exception {
+
 		if (data == null) {
 			return null;
 		}

@@ -1,6 +1,7 @@
 package com.chandan.osmosis.plugin.geojson.cache;
 
 import com.chandan.osmosis.plugin.geojson.common.Utils;
+import com.chandan.osmosis.plugin.geojson.model.Feature;
 import com.chandan.osmosis.plugin.geojson.model.Point;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -13,12 +14,12 @@ import com.sleepycat.je.Environment;
 import com.sleepycat.je.OperationStatus;
 
 
-public class PointCache implements Cache<Point>{
+public class FeaturePointCache implements Cache<Feature<Point>>{
 
 	private Environment dbEnv;
 	private Database pointCacheDb;
 	
-	public PointCache(Environment dbEnv) {
+	public FeaturePointCache(Environment dbEnv) {
 		this.dbEnv = dbEnv;
 	}
 
@@ -30,7 +31,7 @@ public class PointCache implements Cache<Point>{
 	}	
 	
 	@Override
-	public Point get(long key) {
+	public Feature<Point> get(long key) {
 		DatabaseEntry keyEntry = new DatabaseEntry();
 		DatabaseEntry dataEntry = new DatabaseEntry();
 		LongBinding.longToEntry(key, keyEntry);
@@ -39,7 +40,7 @@ public class PointCache implements Cache<Point>{
 			byte[] data = dataEntry.getData();
 			if (data != null) {
 				try {
-					return Utils.<Point>jsonDecode(data, new TypeReference<Point>() {});
+					return Utils.<Feature<Point>>jsonDecode(data, new TypeReference<Feature<Point>>() {});
 				} catch (Exception e) {
 					e.printStackTrace(System.err);
 				}
@@ -49,7 +50,7 @@ public class PointCache implements Cache<Point>{
 	}
 
 	@Override
-	public void put(long key, Point t) {
+	public void put(long key, Feature<Point> t) {
 		DatabaseEntry keyEntry = new DatabaseEntry();
 		DatabaseEntry dataEntry = new DatabaseEntry();
 		LongBinding.longToEntry(key, keyEntry);

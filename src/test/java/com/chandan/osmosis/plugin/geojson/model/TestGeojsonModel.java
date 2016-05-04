@@ -52,9 +52,24 @@ public class TestGeojsonModel {
 		nodeProperties.setAmenity("restaurant");
 		Feature<Point> ser = new Feature<Point>(point, nodeProperties);
 		String json = Utils.jsonEncode(ser);
-		System.out.println(json);
 		Feature<Point> de = Utils.jsonDecode(json.getBytes(), new TypeReference<Feature<Point>>() {});
-		System.out.println(de);
+		Assert.assertEquals(ser, de);
+	}
+
+	@Test
+	public void testFeaturePointWithoutPropertiesSerde() throws Exception {
+		Feature<Point> ser = new Feature<>(new Point(new Coordinate(77.87, 12.78)), null);
+		String json = Utils.jsonEncode(ser);
+		Feature<Point> de = Utils.jsonDecode(json.getBytes(), new TypeReference<Feature<Point>>() {});
+		Assert.assertEquals(ser, de);
+	}
+
+	@Test
+	public void testFeatureLinestringWithoutPropertiesSerde() throws Exception {
+		LineString lineString = new LineString(Arrays.asList(new Coordinate(1.2, 2.3), new Coordinate(2.3, 2.5)));
+		Feature<LineString> ser = new Feature<LineString>(lineString, null);
+		String json = Utils.jsonEncode(ser);
+		Feature<LineString> de = Utils.jsonDecode(json.getBytes(), new TypeReference<Feature<LineString>>() {});
 		Assert.assertEquals(ser, de);
 	}
 }

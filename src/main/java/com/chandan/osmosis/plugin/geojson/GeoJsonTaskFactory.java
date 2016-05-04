@@ -7,9 +7,14 @@ import org.openstreetmap.osmosis.core.pipeline.v0_6.SinkManager;
 
 public class GeoJsonTaskFactory extends TaskManagerFactory {
 
+	private static final String GEO_JSON_FILE_ARG = "geojsonFile";
+	private static final String DIRECTORY_FOR_CACHE = "directoryForCache";
+
 	@Override
 	protected TaskManager createTaskManagerImpl(TaskConfiguration taskConfig) {
-		GeoJsonSink geoJsonSink = new GeoJsonSink();
+		String geoJsonFile = getStringArgument(taskConfig, GEO_JSON_FILE_ARG);
+		String directoryForCache = getStringArgument(taskConfig, DIRECTORY_FOR_CACHE);
+		GeoJsonSink geoJsonSink = new GeoJsonSink(geoJsonFile, directoryForCache);
 		return new SinkManager(taskConfig.getId(), geoJsonSink, taskConfig.getPipeArgs());
 	}
 }
