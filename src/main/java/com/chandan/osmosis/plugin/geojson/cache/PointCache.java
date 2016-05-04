@@ -1,32 +1,33 @@
 package com.chandan.osmosis.plugin.geojson.cache;
 
-import java.io.File;
-
 import com.chandan.osmosis.plugin.geojson.common.Utils;
 import com.chandan.osmosis.plugin.geojson.model.Point;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.sleepycat.bind.tuple.LongBinding;
 import com.sleepycat.bind.tuple.StringBinding;
 import com.sleepycat.je.Database;
 import com.sleepycat.je.DatabaseConfig;
 import com.sleepycat.je.DatabaseEntry;
 import com.sleepycat.je.Environment;
-import com.sleepycat.je.EnvironmentConfig;
 import com.sleepycat.je.OperationStatus;
 
 
 public class PointCache implements Cache<Point>{
 
-	private final Database pointCacheDb;
+	private Environment dbEnv;
+	private Database pointCacheDb;
 	
-	public PointCache(String cacheFile) {
-		EnvironmentConfig enConfig = new EnvironmentConfig();
-		enConfig.setAllowCreate(true);
-		Environment dbEnvironment = new Environment(new File(cacheFile), enConfig);
+	public PointCache(Environment dbEnv) {
+		this.dbEnv = dbEnv;
+	}
+
+	@Override
+	public void init() {
 		DatabaseConfig dbConfig = new DatabaseConfig();
 		dbConfig.setAllowCreate(true);
-		pointCacheDb = dbEnvironment.openDatabase(null, "pointCacheDb", dbConfig);
-	}
+		pointCacheDb = dbEnv.openDatabase(null, "pointCacheDb", dbConfig);
+	}	
 	
 	@Override
 	public Point get(long key) {
@@ -38,7 +39,7 @@ public class PointCache implements Cache<Point>{
 			byte[] data = dataEntry.getData();
 			if (data != null) {
 				try {
-					return Utils.<Point>jsonDecode(data);
+					return Utils.<Point>jsonDecode(data, new TypeReference<Point>() {});
 				} catch (Exception e) {
 					e.printStackTrace(System.err);
 				}
@@ -59,5 +60,6 @@ public class PointCache implements Cache<Point>{
 		catch (JsonProcessingException e) {
 			e.printStackTrace(System.err);
 		}		
-	}	
+	}
+
 }

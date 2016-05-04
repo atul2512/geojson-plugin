@@ -7,18 +7,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-@JsonFormat(shape = Shape.ARRAY)
-@AllArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Coordinate {
-	
-	private double lng;
-	private double lat;	
+@JsonInclude(value = Include.NON_NULL)
+public abstract class CommonProperties<T extends Geometry> {
+		
+	private long osmId;
+	private String name;
 }

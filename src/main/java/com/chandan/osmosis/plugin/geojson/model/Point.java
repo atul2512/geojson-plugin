@@ -1,14 +1,21 @@
 package com.chandan.osmosis.plugin.geojson.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
+@Setter
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class Point extends Geometry {
 	
-	@JsonSerialize
 	private Coordinate coordinates;
+	
+	public Point() {
+		super(GeoJsonModelType.POINT);
+	}
 	
 	public Point(Coordinate coordinates) {
 		super(GeoJsonModelType.POINT);

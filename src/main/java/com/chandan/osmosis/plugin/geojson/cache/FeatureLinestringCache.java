@@ -1,31 +1,31 @@
 package com.chandan.osmosis.plugin.geojson.cache;
 
-import java.io.File;
-
 import com.chandan.osmosis.plugin.geojson.common.Utils;
 import com.chandan.osmosis.plugin.geojson.model.Feature;
 import com.chandan.osmosis.plugin.geojson.model.LineString;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.sleepycat.bind.tuple.LongBinding;
 import com.sleepycat.bind.tuple.StringBinding;
 import com.sleepycat.je.Database;
 import com.sleepycat.je.DatabaseConfig;
 import com.sleepycat.je.DatabaseEntry;
 import com.sleepycat.je.Environment;
-import com.sleepycat.je.EnvironmentConfig;
 import com.sleepycat.je.OperationStatus;
 
 public class FeatureLinestringCache implements Cache<Feature<LineString>> {
 
-	private final Database featureLinestringCacheDb;
+	private Database featureLinestringCacheDb;
+	private Environment dbEnv;
 	
-	public FeatureLinestringCache(String cacheDirectory) {
-		EnvironmentConfig enConfig = new EnvironmentConfig();
-		enConfig.setAllowCreate(true);
-		Environment dbEnvironment = new Environment(new File(cacheDirectory), enConfig);
+	public FeatureLinestringCache(Environment dbEnv) {
+		this.dbEnv = dbEnv;
+	}
+	
+	public void init() {
 		DatabaseConfig dbConfig = new DatabaseConfig();
 		dbConfig.setAllowCreate(true);
-		featureLinestringCacheDb = dbEnvironment.openDatabase(null, "featureLinestring", dbConfig);
+		featureLinestringCacheDb = this.dbEnv.openDatabase(null, "featureLinestringCacheDb", dbConfig);
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public class FeatureLinestringCache implements Cache<Feature<LineString>> {
 			byte[] data = dataEntry.getData();
 			if (data != null) {
 				try {
-					return Utils.<Feature<LineString>>jsonDecode(data);
+					return Utils.<Feature<LineString>>jsonDecode(data, new TypeReference<Feature<LineString>>() {});
 				} catch (Exception e) {
 					e.printStackTrace(System.err);
 				}
@@ -60,5 +60,4 @@ public class FeatureLinestringCache implements Cache<Feature<LineString>> {
 			e.printStackTrace(System.err);
 		}		
 	}
-
 }

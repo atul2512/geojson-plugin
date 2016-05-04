@@ -16,4 +16,13 @@ public enum GeoJsonModelType {
 	public String getName() {
 		return name;
 	}
+	
+	public static GeoJsonModelType findByValue(String name) {
+		for (GeoJsonModelType type : values()) {
+			if (type.name.equals(name)) {
+				return type;
+			}
+		}
+		return null;
+	}
 }

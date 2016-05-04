@@ -4,9 +4,10 @@ import org.openstreetmap.osmosis.core.domain.v0_6.Node;
 import org.openstreetmap.osmosis.core.domain.v0_6.TagCollection;
 
 import com.chandan.osmosis.plugin.geojson.cache.PointCache;
+import com.chandan.osmosis.plugin.geojson.common.Utils;
 import com.chandan.osmosis.plugin.geojson.model.Coordinate;
 import com.chandan.osmosis.plugin.geojson.model.Feature;
-import com.chandan.osmosis.plugin.geojson.model.Properties;
+import com.chandan.osmosis.plugin.geojson.model.NodeProperties;
 import com.chandan.osmosis.plugin.geojson.model.Point;
 
 public class OsmNodeToFeaturePointConverter extends OsmToFeatureConverter<Node, Point> {
@@ -20,25 +21,24 @@ public class OsmNodeToFeaturePointConverter extends OsmToFeatureConverter<Node, 
 	@Override
 	public Feature<Point> getGeojsonModel(Node t) {
 		pointCache.put(t.getId(), new Point(new Coordinate(t.getLongitude(), t.getLatitude())));
-		Feature<Point> featurePoint = new Feature<Point>();
-		featurePoint.setGeometry(new Point(new Coordinate(t.getLongitude(), t.getLatitude())));
-		Properties properties = getCommonProperties(t);
+		NodeProperties properties = getNodeProperties(t);
 		if (properties != null) {
-			featurePoint.setProperties(getCommonProperties(t));
+			Feature<Point> featurePoint = new Feature<Point>(new Point(
+					new Coordinate(t.getLongitude(), t.getLatitude())), properties);
 			return featurePoint;
 		}
 		return null;
 	}
 
-	public Properties getCommonProperties(Node t) {
+	private NodeProperties getNodeProperties(Node t) {
 		if ((t.getTags() != null && t.getTags().size() > 0)) {
-			Properties properties = new Properties();
-			properties.setOsmId(t.getId());
-			String name = ((TagCollection) t.getTags()).buildMap().get("name");
-			if (name != null && name.length() > 0) {
-				properties.setName(name);
-				return properties;
+			NodeProperties nodeProperties = new NodeProperties();
+			Utils.populateCommonProperties(t, nodeProperties);
+			if (!Utils.hasCommonProperty(nodeProperties)) {
+				return null;
 			}
+			String amenity = ((TagCollection) t.getTags()).buildMap().get("amenity");
+			nodeProperties.setAmenity(amenity);
 		}
 		return null;
 	}
