@@ -54,7 +54,10 @@ public class OsmNodeToFeaturePointConverter extends OsmToFeatureConverter<Node, 
 				return null;
 			}
 			String amenity = ((TagCollection) t.getTags()).buildMap().get("amenity");
+			String highWay = ((TagCollection) t.getTags()).buildMap().get("highway");
 			nodeProperties.setAmenity(amenity);
+			nodeProperties.setHighWay(highWay);
+			return nodeProperties;
 		}
 		return null;
 	}

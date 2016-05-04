@@ -16,4 +16,5 @@ import lombok.ToString;
 public class NodeProperties extends CommonProperties<Point> {
 	
 	private String amenity;
+	private String highWay;
 }
