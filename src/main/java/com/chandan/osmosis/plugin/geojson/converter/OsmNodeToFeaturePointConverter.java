@@ -21,26 +21,15 @@ public class OsmNodeToFeaturePointConverter extends OsmToFeatureConverter<Node, 
 	@Override
 	public Feature<Point> getGeojsonModel(Node node) {
 		NodeProperties properties = getNodeProperties(node);
-		return new Feature<Point>(new Point(
+		Feature<Point> pointFeature =  new Feature<Point>(new Point(
 					new Coordinate(node.getLongitude(), node.getLatitude())), properties);
+		featurePointCache.put(node.getId(), pointFeature);
+		return pointFeature;
 	}
 
 	@Override
 	public boolean isValid(Feature<Point> feature) {
 		if (feature.getProperties() != null) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public void persistGeoJsonModelToCache(long osmId, Feature<Point> pointFeature) {
-		featurePointCache.put(osmId, pointFeature);
-	}
-
-	@Override
-	public boolean shouldBeEmitted(Feature<Point> pointFeature) {
-		if (pointFeature.getProperties() != null) {
 			return true;
 		}
 		return false;

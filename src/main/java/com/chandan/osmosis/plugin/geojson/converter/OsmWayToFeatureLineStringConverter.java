@@ -60,19 +60,6 @@ public class OsmWayToFeatureLineStringConverter extends OsmToFeatureConverter<Wa
 		return featureLineString;
 	}
 
-	@Override
-	public void persistGeoJsonModelToCache(long osmId, Feature<LineString> feature) {
-		lineStringCache.put(osmId, feature);
-	}
-
-	@Override
-	public boolean shouldBeEmitted(Feature<LineString> feature) {
-		if (((WayProperties)feature.getProperties()).getBuilding() != null) {
-			return true;
-		}
-		return false;
-	}
-
 	private WayProperties getWayProperties(Way t) {
 		WayProperties wayProperties = new WayProperties();
 		Utils.populateCommonProperties(t, wayProperties);

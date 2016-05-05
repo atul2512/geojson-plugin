@@ -20,16 +20,6 @@ public class OsmWayToFeaturePolygonConverter extends OsmToFeatureConverter<Way, 
         return false;
     }
 
-    @Override
-    public void persistGeoJsonModelToCache(long osmId, Feature<Polygon> feature) {
-
-    }
-
-    @Override
-    public boolean shouldBeEmitted(Feature<Polygon> feature) {
-        return false;
-    }
-
     public OsmWayToFeaturePolygonConverter(FeaturePointCache pointCache, FeatureLinestringCache lineStringCache) {
         this.pointCache = pointCache;
         this.lineStringCache = lineStringCache;
