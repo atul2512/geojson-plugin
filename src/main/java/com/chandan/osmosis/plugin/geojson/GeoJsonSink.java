@@ -74,16 +74,22 @@ public class GeoJsonSink implements Sink {
 
 	@Override
 	public void complete() {
+		try {
+			writer.flush();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 		System.out.println("GeoJsonPlugin complete");
 	}
 
 	@Override
 	public void release() {
 		try {
-			writer.flush();
+			writer.close();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		dbEnv.close();
 		System.out.println("GeoJsonPlugin released");
 	}
 
